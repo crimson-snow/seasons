@@ -1,4 +1,4 @@
-# rename-tv-plex
+# rename-TV
 Rename TV shows seasons at a time in a Plex suitable naming convention
 
 ## Usage
