@@ -1,14 +1,44 @@
 # rename-TV
-Rename TV shows seasons at a time in a Plex suitable naming convention
+Rename many TV show episodes for Plex at once
+
+## Installation
+UNIX (Linux, macOS, BSD)
+'''
+sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/master/renametv -o /usr/local/bin/renametv
+sudo chmod a+rx /usr/local/bin/renametv
+'''
 
 ## Usage
 ```
-./renametv.py directory "Name of Series" seasonNumber [EpisodeStart] [FileExtentison]
+renametv [OPTIONS] TITLE [DIR [DIR ...]]
 ```
 
+### Arguments
+'''
+TITLE                 define a TV show title
+DIR                   define a working directory
+'''
+
+### Options
+'''
+-h, --help            show this help message and exit
+-c, --copy            copy files to output location
+-e EXTENSION, --extension EXTENSION
+                      only rename files with specified extension
+-E EPISODESTART, --episodestart EPISODESTART
+                      specify the starting episode number
+-o OUTPUT, --output OUTPUT
+                      define an output location
+-q, --quiet           surpress prompts and proceed with writing files
+-s SEASONSTART, --seasonstart SEASONSTART
+                      specify the starting season number
+--version             show program's version number and exit
+'''
+
 ### Example Input
+Copying files to a new directory
 ```
-./renametv.py "~/Media/TV Shows/Yu Yu Hakusho/Season 04" "Yu Yu Hakusho" 4 mkv
+renametv -o "~/TV Shows/Yu Yu Hakusho/Season 04" -c -e mkv -s 4 'Yu Yu Hakusho'
 ```
 
 ### Example Output
@@ -20,5 +50,5 @@ Yu Yu Hakusho 096.mkv --> Yu Yu Hakusho - S04E02.mkv
 Yu Yu Hakusho 097.mkv --> Yu Yu Hakusho - S04E03.mkv
 Yu Yu Hakusho 098.mkv --> Yu Yu Hakusho - S04E04.mkv
 ...
-Rename files? (y/n)
+Write files? (y/n)
 ```
