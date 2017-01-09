@@ -3,10 +3,10 @@ Rename many TV show episodes for Plex at once
 
 ## Installation
 UNIX (Linux, macOS, BSD)
-'''
+```
 sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/master/renametv -o /usr/local/bin/renametv
 sudo chmod a+rx /usr/local/bin/renametv
-'''
+```
 
 ## Usage
 ```
@@ -14,13 +14,13 @@ renametv [OPTIONS] TITLE [DIR [DIR ...]]
 ```
 
 ### Arguments
-'''
+```
 TITLE                 define a TV show title
 DIR                   define a working directory
-'''
+```
 
 ### Options
-'''
+```
 -h, --help            show this help message and exit
 -c, --copy            copy files to output location
 -e EXTENSION, --extension EXTENSION
@@ -33,7 +33,7 @@ DIR                   define a working directory
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
 --version             show program's version number and exit
-'''
+```
 
 ### Example Input
 Copying files to a new directory
