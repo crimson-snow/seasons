@@ -18,7 +18,7 @@ renametv [OPTIONS] TITLE [DIR [DIR ...]]
 TITLE                 define a TV show title
 DIR                   define a working directory
 ```
-The current working directory is the default input and output location.
+The current working directory is the default input and output location if DIR is not supplied.
 
 ### Options
 ```
@@ -37,7 +37,7 @@ The current working directory is the default input and output location.
 ```
 
 ### Example Input
-**Renaming muliple seasons of a series**
+**Renaming multiple seasons of a series**
 Consider the scenario in which we have multiple seasons of a series that we need to rename. To do this in a single command, we need each season in it's own respective directory.
 
 Let's say our file structure looks like this:
@@ -61,7 +61,7 @@ We run our command:
 renametv -e mp4 'Game of Thrones' 'Season 01' 'Season 02'
 ```
 
-The resulting file stucture will look like this:
+The resulting file structure will look like this:
 ```
 Game of Thrones (working directory)
 │
@@ -74,11 +74,11 @@ Game of Thrones (working directory)
 └───Season 02
     │   Game of Thrones - S02E01.mp4
     │   Game of Thrones - S02E02.mp4
-    ...
+		...
 ```
 
 **Copying files to a new directory**
-Consider the scenario where we have several .mkv files in our current working directory. We want to rename every .mkv file in a format the Plex likes but also copy the files to a new directory called "~/TV Shows/Yu Yu Hakusho/Season 04".
+Consider the scenario where we have several .mkv files in our current working directory. We want to rename every .mkv file in a format that Plex likes, but also copy the files to "~/TV Shows/Yu Yu Hakusho/Season 04" which is an appropriate place in our media library.
 
 1. We define our output location with the 'output' flag (If this location does not exist, it will be created).
 2. Since we want the files to be copied to a new location we denote that with the 'copy' flag.
