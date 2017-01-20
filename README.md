@@ -3,13 +3,13 @@ Rename many TV show episodes for Plex at once
 
 ## Installation
 UNIX (Linux, macOS, BSD)
-```
+```bash
 sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/master/renametv -o /usr/local/bin/renametv
 sudo chmod a+rx /usr/local/bin/renametv
 ```
 
 ## Usage
-```
+```bash
 renametv [OPTIONS] TITLE [DIR [DIR ...]]
 ```
 
@@ -33,6 +33,7 @@ The current working directory is the default input and output location if DIR is
 -q, --quiet           surpress prompts and proceed with writing files
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
+-sfv SFV              specify an sfv file to verify files
 --version             show program's version number and exit
 ```
 
@@ -43,7 +44,7 @@ Consider the scenario in which we have multiple seasons of a series that we need
 
 Let's say our file structure looks like this:
 ```
-Game of Thrones *(working directory)*
+Game of Thrones (working directory)
 │
 └───Season 01
 │   │   got101.mp4
@@ -64,7 +65,7 @@ renametv -e mp4 'Game of Thrones' 'Season 01' 'Season 02'
 
 The resulting file structure will look like this:
 ```
-Game of Thrones *(working directory)*
+Game of Thrones (working directory)
 │
 └───Season 01
 │   │   Game of Thrones - S01E01.mp4
@@ -80,15 +81,15 @@ Game of Thrones *(working directory)*
 
 **Copying files to a new directory**
 
-Consider the scenario where we have several `.mkv` files in our current working directory. We want to rename every `.mkv` file in a format that Plex likes, but also copy the files to `~/TV Shows/Yu Yu Hakusho/Season 04` which is an appropriate place in our media library.
+Consider the scenario where we have several .mkv files in our current working directory. We want to rename every .mkv file in a format that Plex likes, but also copy the files to "~/TV Shows/Yu Yu Hakusho/Season 04" which is an appropriate place in our media library.
 
-1. We define our output location with the `--output` flag (If this location does not exist, it will be created).
-2. Since we want the files to be copied to a new location we denote that with the `--copy` flag.
-3. We only want .mkv files for this scenario and we indicate so with the `--extension` flag.
-4. These episodes happen to be in season 4 of the series, so we can specify that with the `--seasonstart` flag.
-5. Finally we have our only required argument, the show title. In this case *Yu Yu Hakusho*.
+1. We define our output location with the 'output' flag (If this location does not exist, it will be created).
+2. Since we want the files to be copied to a new location we denote that with the 'copy' flag.
+3. We only want .mkv files for this scenario and we indicate so with the 'extension' flag.
+4. These episodes happen to be in season 4 of the series, so we can specify that with the 'seasonstart' flag.
+5. Finally we have our only required argument, the show title. In this case 'Yu Yu Hakusho'.
 
-```
+```bash
 renametv -o "~/TV Shows/Yu Yu Hakusho/Season 04" -c -e mkv -s 4 'Yu Yu Hakusho'
 ```
 
