@@ -74,7 +74,8 @@ def sfvparse(sfv):
     filelist = []
     f = open(sfv)
     for line in f:
-        filelist.append(tuple(line.split()))
+        if line[0] is not ";":
+            filelist.append(tuple(line.split()))
     f.close()
     return filelist
 
