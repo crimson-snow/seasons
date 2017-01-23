@@ -28,12 +28,13 @@ The current working directory is the default input and output location if DIR is
                       only rename files with specified extension
 -E EPISODESTART, --episodestart EPISODESTART
                       specify the starting episode number
+-m                    make sfv file for each DIR
 -o OUTPUT, --output OUTPUT
                       define an output location
 -q, --quiet           surpress prompts and proceed with writing files
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
--sfv SFV              specify an sfv file to verify files
+-sfv SFV              provide sfv file to verify files
 --version             show program's version number and exit
 ```
 
@@ -59,7 +60,7 @@ Game of Thrones (working directory)
 ```
 
 We run our command:
-```
+```bash
 renametv -e mp4 'Game of Thrones' 'Season 01' 'Season 02'
 ```
 
@@ -81,7 +82,7 @@ Game of Thrones (working directory)
 
 **Copying files to a new directory**
 
-Consider the scenario where we have several .mkv files in our current working directory. We want to rename every .mkv file in a format that Plex likes, but also copy the files to "~/TV Shows/Yu Yu Hakusho/Season 04" which is an appropriate place in our media library.
+Consider the scenario where we have several .mkv files in our current working directory. We want to rename every .mkv file in a format that Plex likes, but also copy the files to ```~/TV Shows/Yu Yu Hakusho/Season 04``` which is an appropriate place in our media library.
 
 1. We define our output location with the 'output' flag (If this location does not exist, it will be created).
 2. Since we want the files to be copied to a new location we denote that with the 'copy' flag.
@@ -90,7 +91,7 @@ Consider the scenario where we have several .mkv files in our current working di
 5. Finally we have our only required argument, the show title. In this case 'Yu Yu Hakusho'.
 
 ```bash
-renametv -o "~/TV Shows/Yu Yu Hakusho/Season 04" -c -e mkv -s 4 'Yu Yu Hakusho'
+renametv -o '~/TV Shows/Yu Yu Hakusho/Season 04' -c -e mkv -s 4 'Yu Yu Hakusho'
 ```
 
 ### Example Output
