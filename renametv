@@ -6,10 +6,10 @@ import shutil
 import argparse
 import zlib
 
-#ANSI color escape codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+# ANSI color escape codes
+RED = '\033[0;31m'
+GREEN = '\033[0;32m'
+NC = '\033[0m' # No Color
 
 episodes = {}
 
@@ -31,6 +31,8 @@ def main():
                         help="only rename files with specified extension")
     parser.add_argument("-E", "--episodestart", type=int, default=1,
                         help="specify the starting episode number")
+    parser.add_argument("-m", action="store_true",
+                        help="make sfv file for each DIR")
     parser.add_argument("-o", "--output",
                         help="define an output location")
     parser.add_argument("-q", "--quiet", action="store_true",
@@ -59,12 +61,13 @@ def main():
         createepisodenames(title, directory, output,
                            seasonnum, episodenum, extension, sfv)
         seasonnum += 1
+        makesfv(seasonnum)
+        verifychanges(args.quiet, args.copy)
+        episodes.clear()
 
-    verifychanges(args.quiet, args.copy)
 
-
-def makecrc(filename):
-    f = open(filename, 'rb')
+def makecrc(filepath):
+    f = open(filepath, 'rb')
     signedcrc = zlib.crc32(f.read()) % (1 << 32)
     f.close()
     return format(signedcrc, 'x')
@@ -80,7 +83,7 @@ def sfvparse(sfv):
     return filelist
 
 
-def makesfv():
+def makesfv(season):
     pass
 
 
@@ -103,12 +106,21 @@ def makechanges(copy):
 
 
 def verifychanges(quiet, copy):
-    if quiet or input("Write files? (y/n) ").lower() == "y":
-        makechanges(copy)
-        print('Done!')
-    else:
-        print("Exiting...")
-        sys.exit()
+    while True:
+        userinput = quiet or input("Write files? ((y)es, (n)o, (q)uit) ").lower()
+
+        if userinput == "y" or userinput is True:
+            makechanges(copy)
+            print('Done!')
+            break
+        elif userinput == "n":
+            print('No changes made')
+            break
+        elif userinput == "q":
+            print("Exiting...")
+            sys.exit()
+        else:
+            print("Please enter a valid option.")
 
 
 def createepisodenames(title, src, dst, season,
