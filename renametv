@@ -12,6 +12,9 @@ GREEN = '\033[0;32m'
 NC = '\033[0m' # No Color
 
 episodes = {}
+ignoredtypes = {'.sfv', '.DS_Store', '.Spotlight-V100', '.Trashes',
+                '.DocumentRevisions-V100', '.fseventsd',
+                '.VolumeIcon.icns'}
 
 
 def main():
@@ -31,7 +34,7 @@ def main():
                         help="only rename files with specified extension")
     parser.add_argument("-E", "--episodestart", type=int, default=1,
                         help="specify the starting episode number")
-    parser.add_argument("-m", action="store_true",
+    parser.add_argument("-m", "--makesfv", action="store_true",
                         help="make sfv file for each DIR")
     parser.add_argument("-o", "--output",
                         help="define an output location")
@@ -61,8 +64,12 @@ def main():
         createepisodenames(title, directory, output,
                            seasonnum, episodenum, extension, sfv)
         seasonnum += 1
-        makesfv(seasonnum)
         verifychanges(args.quiet, args.copy)
+
+        if args.makesfv:
+            print("making sfv")
+            makesfv(directory)
+
         episodes.clear()
 
 
@@ -78,13 +85,20 @@ def sfvparse(sfv):
     f = open(sfv)
     for line in f:
         if line[0] is not ";":
-            filelist.append(tuple(line.split()))
+            filelist.append(tuple(line.rsplit(" ", 1)))
     f.close()
     return filelist
 
 
-def makesfv(season):
-    pass
+def makesfv(directory):
+    f = open(directory + "/" + os.path.basename(directory) + ".sfv", 'w' )
+
+    for e in episodes:
+        file = episodes[e]['new']['file']
+        path = episodes[e]['new']['path']
+        f.write(file + " " + makecrc(path + file) + "\n")
+
+    f.close()
 
 
 def crcvalidate(crc1, crc2):
@@ -126,6 +140,8 @@ def verifychanges(quiet, copy):
 def createepisodenames(title, src, dst, season,
                        episode, extension, sfv):
     for file in [x for x in os.listdir(src)
+                 if not os.path.splitext(x)[0] in ignoredtypes
+                 if not os.path.splitext(x)[1] in ignoredtypes
                  if not os.path.isdir(os.path.join(src, x))]:
         if extension:
             if extension[0] != '.':
@@ -142,7 +158,8 @@ def createepisodenames(title, src, dst, season,
         if sfv:
             for t in sfv:
                 if file in t:
-                    if crcvalidate(makecrc(src + '/' + file), t[1]):
+                    if crcvalidate(makecrc(src + '/' + file),
+                                   t[1].strip("\n")):
                         print(GREEN + "[CRC Match]" + NC)
                     else:
                         print(RED + "[CRC Mismatch]" + NC)
