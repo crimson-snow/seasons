@@ -28,13 +28,14 @@ The current working directory is the default input and output location if DIR is
                       only rename files with specified extension
 -E EPISODESTART, --episodestart EPISODESTART
                       specify the starting episode number
--m                    make sfv file for each DIR
+-m, --makesfv         create an sfv file for each DIR
 -o OUTPUT, --output OUTPUT
                       define an output location
 -q, --quiet           surpress prompts and proceed with writing files
+-r SFV, --readsfv SFV
+                      specify an sfv file to verify files
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
--sfv SFV              provide sfv file to verify files
 --version             show program's version number and exit
 ```
 
