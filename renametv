@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import sys
 import shutil
 import argparse
@@ -20,29 +21,30 @@ ignoredtypes = {'.sfv', '.DS_Store', '.Spotlight-V100', '.Trashes',
 def main():
     parser = argparse.ArgumentParser(description='Rename many TV show \
                                                 episodes for Plex at once',
-                                     epilog="The current working \
+                                     epilog='The current working \
                                                 directory is the default \
-                                                input and output location")
+                                                input and output location')
 
-    parser.add_argument("title", metavar="TITLE",
-                        help="define a TV show title")
-    parser.add_argument("dir", metavar="DIR",  nargs='*', default=".",
-                        help="define a working directory")
-    parser.add_argument("-c", "--copy", action="store_true",
-                        help="copy files to output location")
-    parser.add_argument("-e", "--extension",
-                        help="only rename files with specified extension")
-    parser.add_argument("-E", "--episodestart", type=int, default=1,
-                        help="specify the starting episode number")
-    parser.add_argument("-m", "--makesfv", action="store_true",
-                        help="make sfv file for each DIR")
-    parser.add_argument("-o", "--output",
-                        help="define an output location")
-    parser.add_argument("-q", "--quiet", action="store_true",
-                        help="surpress prompts and proceed with writing files")
-    parser.add_argument("-s", "--seasonstart", type=int, default=1,
-                        help="specify the starting season number")
-    parser.add_argument("-sfv", help="provide sfv file to verify files")
+    parser.add_argument('title', metavar='TITLE',
+                        help='define a TV show title')
+    parser.add_argument('dir', metavar='DIR',  nargs='*', default='.',
+                        help='define a working directory')
+    parser.add_argument('-c', '--copy', action='store_true',
+                        help='copy files to output location')
+    parser.add_argument('-e', '--extension',
+                        help='only rename files with specified extension')
+    parser.add_argument('-E', '--episodestart', type=int, default=1,
+                        help='specify the starting episode number')
+    parser.add_argument('-m', '--makesfv', action='store_true',
+                        help='create an sfv file for each DIR')
+    parser.add_argument('-o', '--output',
+                        help='define an output location')
+    parser.add_argument('-q', '--quiet', action='store_true',
+                        help='surpress prompts and proceed with writing files')
+    parser.add_argument('-r', '--readsfv', metavar='SFV',
+                        help='specify an sfv file to verify files')
+    parser.add_argument('-s', '--seasonstart', type=int, default=1,
+                        help='specify the starting season number')
     parser.add_argument('--version', action='version',
                         version='%(prog)s v1.1')
 
@@ -55,8 +57,8 @@ def main():
     episodenum = args.episodestart
     extension = args.extension
 
-    if args.sfv:
-        sfv = sfvparse(args.sfv)
+    if args.readsfv:
+        sfv = sfvparse(args.readsfv)
     else:
         sfv = False
 
@@ -67,7 +69,6 @@ def main():
         verifychanges(args.quiet, args.copy)
 
         if args.makesfv:
-            print("making sfv")
             makesfv(directory)
 
         episodes.clear()
@@ -84,19 +85,21 @@ def sfvparse(sfv):
     filelist = []
     f = open(sfv)
     for line in f:
-        if line[0] is not ";":
-            filelist.append(tuple(line.rsplit(" ", 1)))
+        # parse for comments
+        nocom = re.sub(r'\;.*', '', line)
+        filelist.append(tuple(nocom.strip().rsplit(' ', 1)))
+
     f.close()
     return filelist
 
 
 def makesfv(directory):
-    f = open(directory + "/" + os.path.basename(directory) + ".sfv", 'w' )
+    f = open(directory + '/' + os.path.basename(directory) + '.sfv', 'w')
 
     for e in episodes:
         file = episodes[e]['new']['file']
         path = episodes[e]['new']['path']
-        f.write(file + " " + makecrc(path + file) + "\n")
+        f.write(file + ' ' + makecrc(path + file) + '\n')
 
     f.close()
 
@@ -111,7 +114,7 @@ def makechanges(copy):
         newpath = episodes[e]['new']['path'] + episodes[e]['new']['file']
 
         if copy:
-            print("Copying " + episodes[e]['new']['file'])
+            print('Copying ' + episodes[e]['new']['file'])
             if not os.path.exists(episodes[e]['new']['path']):
                 os.makedirs(episodes[e]['new']['path'])
             shutil.copy(oldpath, newpath)
@@ -121,20 +124,20 @@ def makechanges(copy):
 
 def verifychanges(quiet, copy):
     while True:
-        userinput = quiet or input("Write files? ((y)es, (n)o, (q)uit) ").lower()
+        userinput = quiet or input('Write files? ((y)es, (n)o, (q)uit) ').lower()
 
-        if userinput == "y" or userinput is True:
+        if userinput == 'y' or userinput is True:
             makechanges(copy)
             print('Done!')
             break
-        elif userinput == "n":
+        elif userinput == 'n':
             print('No changes made')
             break
-        elif userinput == "q":
-            print("Exiting...")
+        elif userinput == 'q':
+            print('Exiting...')
             sys.exit()
         else:
-            print("Please enter a valid option.")
+            print('Please enter a valid option.')
 
 
 def createepisodenames(title, src, dst, season,
@@ -145,24 +148,24 @@ def createepisodenames(title, src, dst, season,
                  if not os.path.isdir(os.path.join(src, x))]:
         if extension:
             if extension[0] != '.':
-                ext = "." + extension
+                ext = '.' + extension
             else:
                 ext = extension
         else:
             _, ext = os.path.splitext(file)
 
-        newname = (title + " - S{:02d}".format(season) +
-                   "E{:02d}".format(episode) + ext)
-        print(file + " --> " + newname)
+        newname = (title + ' - S{:02d}'.format(season) +
+                   'E{:02d}'.format(episode) + ext)
+        print(file + ' --> ' + newname)
 
         if sfv:
             for t in sfv:
                 if file in t:
                     if crcvalidate(makecrc(src + '/' + file),
-                                   t[1].strip("\n")):
-                        print(GREEN + "[CRC Match]" + NC)
+                                   t[1].strip('\n')):
+                        print(GREEN + '[CRC Match]' + NC)
                     else:
-                        print(RED + "[CRC Mismatch]" + NC)
+                        print(RED + '[CRC Mismatch]' + NC)
 
         episodes[episode] = {'old': {'path': src + '/', 'file': file},
                              'new': {'path': dst + '/', 'file': newname}}
