@@ -15,7 +15,7 @@ NC = '\033[0m' # No Color
 episodes = {}
 ignoredtypes = {'.sfv', '.DS_Store', '.Spotlight-V100', '.Trashes',
                 '.DocumentRevisions-V100', '.fseventsd',
-                '.VolumeIcon.icns'}
+                '.VolumeIcon.icns', '.localized'}
 
 
 def main():
@@ -41,8 +41,8 @@ def main():
                         help='define an output location')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='surpress prompts and proceed with writing files')
-    parser.add_argument('-r', '--readsfv', metavar='SFV',
-                        help='specify an sfv file to verify files')
+    parser.add_argument('-r', '--readsfv', action='store_true',
+                        help='read sfv file in DIR to verify files')
     parser.add_argument('-s', '--seasonstart', type=int, default=1,
                         help='specify the starting season number')
     parser.add_argument('--version', action='version',
@@ -57,14 +57,19 @@ def main():
     episodenum = args.episodestart
     extension = args.extension
 
-    if args.readsfv:
-        sfv = sfvparse(args.readsfv)
-    else:
-        sfv = False
-
     for directory in directories:
+        print(directory)
+        if args.readsfv:
+            sfv = findsfv(directory)
+            if sfv:
+                sfvparsed = sfvparse(sfv)
+            else:
+                sfvparsed = False
+        else:
+            sfvparsed = False
+
         createepisodenames(title, directory, output,
-                           seasonnum, episodenum, extension, sfv)
+                           seasonnum, episodenum, extension, sfvparsed)
         seasonnum += 1
         verifychanges(args.quiet, args.copy)
 
@@ -72,6 +77,18 @@ def main():
             makesfv(directory)
 
         episodes.clear()
+
+
+def findsfv(src):
+    sfvfiles = []
+    for file in [x for x in os.listdir(src)
+                 if os.path.splitext(x)[1] == ".sfv"]:
+        sfvfiles.append(src + '/' + file)
+
+    if sfvfiles:
+        return sfvfiles[0]
+    else:
+        return False
 
 
 def makecrc(filepath):
@@ -131,7 +148,7 @@ def verifychanges(quiet, copy):
             print('Done!')
             break
         elif userinput == 'n':
-            print('No changes made')
+            print('No changes made.\n')
             break
         elif userinput == 'q':
             print('Exiting...')
