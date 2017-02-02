@@ -139,8 +139,12 @@ def makechanges(copy):
                 os.makedirs(episodes[e]['new']['path'])
 
         if copy:
-            print('Copying ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
-            shutil.copy(oldpath, newpath)
+            try:
+                print('Copying ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
+                shutil.copy(oldpath, newpath)
+            except shutil.SameFileError:
+                print('Cannot copy. File already exist at the desired output location.')
+
         else:
             print('Moving ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
             os.rename(oldpath, newpath)
