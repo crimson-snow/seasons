@@ -139,10 +139,10 @@ def makechanges(copy):
                 os.makedirs(episodes[e]['new']['path'])
 
         if copy:
-            print('Copying ' + '"' + episodes[e]['new']['file'] + '" ' + 'to ' + episodes[e]['new']['path'])
+            print('Copying ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
             shutil.copy(oldpath, newpath)
         else:
-            print('Moving ' + episodes[e]['new']['file'] + 'to ' + episodes[e]['new']['path'])
+            print('Moving ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
             os.rename(oldpath, newpath)
 
 
