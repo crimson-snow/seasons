@@ -71,9 +71,9 @@ def main():
         createepisodenames(title, directory, output,
                            seasonnum, episodenum, extension, sfvparsed)
         seasonnum += 1
-        verifychanges(args.quiet, args.copy)
+        domakesfv = verifychanges(args.quiet, args.copy)
 
-        if args.makesfv:
+        if args.makesfv and domakesfv:
             makesfv(directory)
 
         episodes.clear()
@@ -146,10 +146,10 @@ def verifychanges(quiet, copy):
         if userinput == 'y' or userinput is True:
             makechanges(copy)
             print('Done!')
-            break
+            return True
         elif userinput == 'n':
             print('No changes made.\n')
-            break
+            return False
         elif userinput == 'q':
             print('Exiting...')
             sys.exit()
