@@ -52,7 +52,7 @@ def main():
 
     title = args.title
     directories = args.dir
-    output = args.output or directories[0]
+    output = args.output or False
     seasonnum = args.seasonstart
     episodenum = args.episodestart
     extension = args.extension
@@ -68,14 +68,18 @@ def main():
         else:
             sfvparsed = False
 
+        if output is False:
+            output = directory
+
         createepisodenames(title, directory, output,
                            seasonnum, episodenum, extension, sfvparsed)
         seasonnum += 1
         domakesfv = verifychanges(args.quiet, args.copy)
 
         if args.makesfv and domakesfv:
-            makesfv(directory)
+            makesfv(output)
 
+        output = args.output or False
         episodes.clear()
 
 
@@ -111,7 +115,8 @@ def sfvparse(sfv):
 
 
 def makesfv(directory):
-    f = open(directory + '/' + os.path.basename(directory) + '.sfv', 'w')
+    sfvname = directory + '/' + os.path.basename(directory) + '.sfv'
+    f = open(sfvname, 'a')
 
     for e in episodes:
         file = episodes[e]['new']['file']
@@ -119,7 +124,7 @@ def makesfv(directory):
         f.write(file + ' ' + makecrc(path + file) + '\n')
 
     f.close()
-
+    print('Wrote to ' + sfvname)
 
 def crcvalidate(crc1, crc2):
     return (crc1.lower() == crc2.lower())
@@ -130,12 +135,14 @@ def makechanges(copy):
         oldpath = episodes[e]['old']['path'] + episodes[e]['old']['file']
         newpath = episodes[e]['new']['path'] + episodes[e]['new']['file']
 
-        if copy:
-            print('Copying ' + episodes[e]['new']['file'])
-            if not os.path.exists(episodes[e]['new']['path']):
+        if not os.path.exists(episodes[e]['new']['path']):
                 os.makedirs(episodes[e]['new']['path'])
+
+        if copy:
+            print('Copying ' + '"' + episodes[e]['new']['file'] + '" ' + 'to ' + episodes[e]['new']['path'])
             shutil.copy(oldpath, newpath)
         else:
+            print('Moving ' + episodes[e]['new']['file'] + 'to ' + episodes[e]['new']['path'])
             os.rename(oldpath, newpath)
 
 
