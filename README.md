@@ -4,7 +4,7 @@ Rename many TV show episodes for Plex at once
 ## Installation
 UNIX (Linux, macOS, BSD)
 ```bash
-sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/master/renametv -o /usr/local/bin/renametv
+sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/master/renametv.py -o /usr/local/bin/renametv
 sudo chmod a+rx /usr/local/bin/renametv
 ```
 
