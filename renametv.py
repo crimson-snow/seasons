@@ -175,7 +175,7 @@ def verifychanges(quiet, copy):
 
 def createepisodenames(title, src, dst, season,
                        episode, extension, sfv):
-    for file in [x for x in os.listdir(src)
+    for file in [x for x in sorted(os.listdir(src))
                  if not os.path.splitext(x)[0] in ignoredtypes
                  if not os.path.splitext(x)[1] in ignoredtypes
                  if not os.path.isdir(os.path.join(src, x))]:
