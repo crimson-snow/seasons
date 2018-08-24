@@ -6,6 +6,7 @@ import sys
 import shutil
 import argparse
 import zlib
+from natsort import natsorted, ns
 
 # ANSI color escape codes
 RED = '\033[0;31m'
@@ -175,7 +176,7 @@ def verifychanges(quiet, copy):
 
 def createepisodenames(title, src, dst, season,
                        episode, extension, sfv):
-    for file in [x for x in os.listdir(src)
+    for file in [x for x in natsorted(os.listdir(src), alg=ns.IGNORECASE)
                  if not os.path.splitext(x)[0] in ignoredtypes
                  if not os.path.splitext(x)[1] in ignoredtypes
                  if not os.path.isdir(os.path.join(src, x))]:
