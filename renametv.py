@@ -10,7 +10,7 @@ import zlib
 # ANSI color escape codes
 RED = '\033[0;31m'
 GREEN = '\033[0;32m'
-NC = '\033[0m' # No Color
+NC = '\033[0m'  # No Color
 
 episodes = {}
 ignoredtypes = {'.sfv', '.DS_Store', '.Spotlight-V100', '.Trashes',
@@ -126,6 +126,7 @@ def makesfv(directory):
     f.close()
     print('Wrote to ' + sfvname)
 
+
 def crcvalidate(crc1, crc2):
     return (crc1.lower() == crc2.lower())
 
@@ -140,19 +141,23 @@ def makechanges(copy):
 
         if copy:
             try:
-                print('Copying ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
+                print('Copying ' + '"' + episodes[e]['new']['file'] + '"'
+                      + ' to ' + episodes[e]['new']['path'])
                 shutil.copy(oldpath, newpath)
             except shutil.SameFileError:
-                print('Cannot copy. File already exist at the desired output location.')
+                print('Cannot copy. ',
+                      'File already exists at the desired output location.')
 
         else:
-            print('Moving ' + '"' + episodes[e]['new']['file'] + '"' + ' to ' + episodes[e]['new']['path'])
-            os.rename(oldpath, newpath)
+            print('Moving ' + '"' + episodes[e]['new']['file']
+                  + '"' + ' to ' + episodes[e]['new']['path'])
+            shutil.move(oldpath, newpath)
 
 
 def verifychanges(quiet, copy):
     while True:
-        userinput = quiet or input('Write files? ((y)es, (n)o, (q)uit) ').lower()
+        userinput = quiet or \
+                    input('Write files? ((y)es, (n)o, (q)uit) ').lower()
 
         if userinput == 'y' or userinput is True:
             makechanges(copy)
