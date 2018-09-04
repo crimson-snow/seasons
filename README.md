@@ -46,11 +46,12 @@ Game of Thrones (working directory)
 │   │   got101.mp4
 │   │   got102.mp4
 │   │   got103.mp4
-		...
+        ...
 │
 └───Season 02
     │   got201.mp4
     │   got202.mp4
+    |   got203.mp4
         ...
 ```
 
@@ -67,13 +68,13 @@ Game of Thrones (working directory)
 │   │   Game of Thrones - S01E01.mp4
 │   │   Game of Thrones - S01E02.mp4
 │   │   Game of Thrones - S01E03.mp4
-		...
+        ...
 │
 └───Season 02
     │   Game of Thrones - S02E01.mp4
     │   Game of Thrones - S02E02.mp4
-        Game of Thrones - S02E03.mp4
-		...
+    |   Game of Thrones - S02E03.mp4
+        ...
 ```
 
 **Copying files to a new directory**
