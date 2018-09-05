@@ -57,7 +57,7 @@ Game of Thrones (working directory)
 
 We run our command:
 ```bash
-python3 renametv.py 'Game of Thrones' Season\ 01 Season\ 02 -o .
+python3 renametv.py 'Game of Thrones' Season\ 01 Season\ 02
 ```
 
 The resulting file structure will look like this:
@@ -81,11 +81,11 @@ Game of Thrones (working directory)
 
 Consider the scenario where we have several .mkv files in our current working directory. We want to copy the files to ```Media/TV Shows/Dragon Ball Super``` where Plex will be able to find the content and add it to our media library.
 
-1. We define our output location with the 'output' flag. If this location does not exist, it will be created.
-2. Since we want the files to be copied to a new location and not moved, we denote that with the 'copy' flag.
-4. The episodes used in this example start at 105 and we can specify that with the 'episodestart' flag.
-5. Next we input our desired show title. In this case 'Dragon Ball Super'.
-6. Finally we have our source directory 'DBS'.
+1. We define our output location with the `--output` flag. If this location does not exist, it will be created.
+2. Since we want the files to be copied to a new location and not moved, we denote that with the `--copy` flag.
+4. The episodes used in this example start at 105 and we can specify that with the `--episodestart` flag.
+5. Next we input our desired show title. In this case `'Dragon Ball Super'`.
+6. Finally we have our source directory `'DBS'`.
 
 ```bash
 python3 renametv.py -o 'Media/TV Shows/Dragon Ball Super' -c -e 105 'Dragon Ball Super' DBS
