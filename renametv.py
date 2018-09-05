@@ -16,9 +16,15 @@ class Series:
 
 
 class Episode:
-    ignoredtypes = {'.sfv', '.DS_Store', '.Spotlight-V100', '.Trashes',
-                    '.DocumentRevisions-V100', '.fseventsd',
-                    '.VolumeIcon.icns', '.localized', '.gitignore'}
+    ignored = {'.sfv',
+               '.DS_Store',
+               '.Spotlight-V100',
+               '.Trashes',
+               '.DocumentRevisions-V100',
+               '.fseventsd',
+               '.VolumeIcon.icns',
+               '.localized',
+               '.gitignore'}
 
     def __init__(self, title, episodenum,
                  origfilename, newfilename=None,
@@ -47,11 +53,12 @@ class Episode:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='A lightweight organization \
-                                                  tool for your media library',
-                                     epilog='The current working \
-                                                directory is the default \
-                                                input and output location')
+    parser = argparse.ArgumentParser(description='A lightweight organization '
+                                                 + 'tool for your '
+                                                 + 'media library',
+                                     epilog='The current working '
+                                            + 'directory is the default '
+                                            + 'input and output location')
 
     parser.add_argument('title', metavar='TITLE',
                         help='specify a TV show title')
@@ -67,6 +74,8 @@ def main():
                         help='surpress prompts and proceed with writing files')
     parser.add_argument('-s', '--seasonstart', type=int, default=1,
                         help='specify the starting season number')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='display file paths in full')
     parser.add_argument('--version', action='version',
                         version='%(prog)s v1.1.1')
 
@@ -80,6 +89,7 @@ def main():
         'output': args.output or False,
         'seasonnum': args.seasonstart,
         'episodenum': args.episodestart,
+        'verbose': args.verbose
     }
 
     series = Series(options['seasonnum'], options['title'])
@@ -93,13 +103,13 @@ def main():
                      alg=ns.IGNORECASE)
                      if not os.path.isdir(os.path.join(directory, x))]:
 
-            name, ext = file.split('.')
-
-            # Check if filename contains ignoredtypes
-            if name in Episode.ignoredtypes or ext in Episode.ignoredtypes:
-                continue
-            # If extension does not exist, find it
-            elif not ext:
+            if '.' in file:
+                name, ext = file.rsplit('.', 1)
+                if name in Episode.ignored or '.' + ext in Episode.ignored:
+                    continue
+            else:
+                name = file
+                # If extension does not exist, make one
                 ext = os.path.basename(magic.from_file(directory
                                                        + '/'
                                                        + file,
@@ -117,11 +127,17 @@ def main():
 
             series.episodes.append(newep)
 
-            print('[{}] from [{}/{}] to [{}/{}]'.format(mode(options['copy']),
-                                                        newep.source,
-                                                        newep.origfilename,
-                                                        newep.destination,
-                                                        newep.newfilename))
+            src = newep.source + '/' + newep.origfilename
+            dest = newep.destination + '/' + newep.newfilename
+
+            # Truncate begining of long paths to display
+            if options['verbose'] is False:
+                src = ('...' + src[-31:]) if len(src) > 28 else src
+                dest = ('...' + dest[-31:]) if len(dest) > 28 else dest
+
+            print('[{}] from [{}] to [{}]'.format(mode(options['copy']),
+                                                  src,
+                                                  dest))
 
             options['episodenum'] += 1
 
@@ -155,8 +171,8 @@ def writefiles(episodes, copy):
                             e.destination + '/' + e.newfilename)
 
         except shutil.SameFileError:
-                print('Cannot {}}. File already exists at the desired \
-                      output location.'.format(mode(copy).lower()))
+                print('Cannot {}! File already exists at the desired ',
+                      + 'output location.'.format(mode(copy).lower()))
 
 
 def userprompt():
