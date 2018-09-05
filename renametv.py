@@ -4,6 +4,7 @@ import os
 import sys
 import shutil
 import argparse
+import magic
 from natsort import natsorted, ns
 
 
@@ -21,11 +22,11 @@ class Episode:
 
     def __init__(self, title, episodenum,
                  origfilename, newfilename=None,
-                 source=None, destination=None):
+                 source=None, destination=None, extension=None):
         self.title = title
         self.episodenum = episodenum
         self.origfilename = origfilename
-        self.extension = origfilename.split('.')[1]
+        self.extension = extension
         self.newfilename = newfilename
         self.source = source
         self.destination = destination
@@ -90,11 +91,24 @@ def main():
 
         for file in [x for x in natsorted(os.listdir(directory),
                      alg=ns.IGNORECASE)
-                     if not os.path.splitext(x)[0] in Episode.ignoredtypes
-                     if not os.path.splitext(x)[1] in Episode.ignoredtypes
                      if not os.path.isdir(os.path.join(directory, x))]:
 
-            newep = Episode(series.title, options['episodenum'], file)
+            name, ext = file.split('.')
+
+            # Check if filename contains ignoredtypes
+            if name in Episode.ignoredtypes or ext in Episode.ignoredtypes:
+                continue
+            # If extension does not exist, find it
+            elif not ext:
+                ext = os.path.basename(magic.from_file(directory
+                                                       + '/'
+                                                       + file,
+                                                       mime=True))
+
+            newep = Episode(series.title,
+                            options['episodenum'],
+                            file,
+                            extension=ext)
 
             newep.makefilename(series.seasonnum)
             newep.source = directory
@@ -147,15 +161,15 @@ def writefiles(episodes, copy):
 
 def userprompt():
     while True:
-        userinput = input('Write files? [(y)es, (n)o, (q)uit]').lower()
+        userinput = input('Write files? [(y)es, (n)o, (q)uit] ').lower()
 
         if userinput == 'y':
             return True
         elif userinput == 'n' or userinput == 'q':
-            print('No changes made.')
+            print('No changes made')
             return False
         else:
-            print('Please enter a valid option.')
+            print('Please enter a valid option ')
 
         print('\n')
 
