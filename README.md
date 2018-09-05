@@ -46,7 +46,7 @@ Game of Thrones (working directory)
 │   │   got101.mp4
 │   │   got102.mp4
 │   │   got103.mp4
-        ...
+|       ...
 │
 └───Season 02
     │   got201.mp4
@@ -68,7 +68,7 @@ Game of Thrones (working directory)
 │   │   Game of Thrones - S01E01.mp4
 │   │   Game of Thrones - S01E02.mp4
 │   │   Game of Thrones - S01E03.mp4
-        ...
+|       ...
 │
 └───Season 02
     │   Game of Thrones - S02E01.mp4
@@ -79,26 +79,26 @@ Game of Thrones (working directory)
 
 **Copying files to a new directory**
 
-Consider the scenario where we have several .mkv files in our current working directory. We want to copy the files to ```Media/TV Shows/Dragon Ball Super``` where Plex will be able to find the content and add it to our media library.
+Consider the scenario where we have several .mkv files in our current working directory. We want to copy the files to ```B``` where Plex will be able to find the content and add it to our media library.
 
 1. We define our output location with the `--output` flag. If this location does not exist, it will be created.
 2. Since we want the files to be copied to a new location and not moved, we denote that with the `--copy` flag.
 4. The episodes used in this example start at 105 and we can specify that with the `--episodestart` flag.
 5. Next we input our desired show title. In this case `'Dragon Ball Super'`.
-6. Finally we have our source directory `'DBS'`.
+6. Finally we have our source directory `A`.
 
 ```bash
-python3 renametv.py -o 'Media/TV Shows/Dragon Ball Super' -c -e 105 'Dragon Ball Super' DBS
+python3 renametv.py -o B -c -e 105 'Dragon Ball Super' A
 ```
 
 ### Example Output
 Any proposed changes will be displayed with a prompt to proceed with renaming or to exit without saving.
 
 ```
-[MOVE] from [DBS/Dragon Ball Super - 105 [1080p].mkv] to [Media/TV Shows/Dragon Ball Super/Season 01/Dragon Ball Super - S01E105.mkv]
-[MOVE] from [DBS/Dragon Ball Super - 106 [1080p].mkv] to [Media/TV Shows/Dragon Ball Super/Season 01/Dragon Ball Super - S01E106.mkv]
-[MOVE] from [DBS/Dragon Ball Super - 107 [1080p].mkv] to [Media/TV Shows/Dragon Ball Super/Season 01/Dragon Ball Super - S01E107.mkv]
-[MOVE] from [DBS/Dragon Ball Super - 108 [1080p].mkv] to [Media/TV Shows/Dragon Ball Super/Season 01/Dragon Ball Super - S01E108.mkv]
+[MOVE] from [A/Dragon Ball Super - 105 [1080p].mkv] to [B/Season 01/Dragon Ball Super - S01E105.mkv]
+[MOVE] from [A/Dragon Ball Super - 106 [1080p].mkv] to [B/Season 01/Dragon Ball Super - S01E106.mkv]
+[MOVE] from [A/Dragon Ball Super - 107 [1080p].mkv] to [B/Season 01/Dragon Ball Super - S01E107.mkv]
+[MOVE] from [A/Dragon Ball Super - 108 [1080p].mkv] to [B/Season 01/Dragon Ball Super - S01E108.mkv]
 ...
 Write files? [(y)es, (n)o, (q)uit]
 ```
