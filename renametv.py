@@ -16,7 +16,8 @@ class Series:
 
 
 class Episode:
-    ignored = {'.sfv',
+    ignored = {'.nfo',
+               '.sfv',
                '.DS_Store',
                '.Spotlight-V100',
                '.Trashes',
