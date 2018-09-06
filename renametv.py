@@ -45,7 +45,7 @@ class Episode:
                             + '.' + self.extension)
 
     def __repr__(self):
-        repr = "Episode('{}', '{}', '{}', '{}', '{}')"
+        repr = "Episode('{}', '{}', '{}', '{}', '{}', '{}', '{}')"
         return repr.format(self.title,
                            self.episodenum,
                            self.origfilename,
