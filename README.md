@@ -32,6 +32,7 @@ The current working directory is the default input and output location if DIR is
 -q, --quiet           suppress prompts and proceed with writing files
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
+-v, --verbose         display file paths in full
 --version             show program's version number and exit
 ```
 
