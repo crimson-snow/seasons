@@ -1,15 +1,17 @@
-# rename-TV
+# seasons
 A lightweight organization tool for your media library
+
+<img src="assets/img/readme/seasons_logo.png" width="100%" />
 
 ## Installation
 UNIX (Linux, macOS, BSD)
 ```bash
-sudo curl -L https://raw.githubusercontent.com/t-sullivan/rename-TV/develop/renametv.py -o ~/Desktop
+sudo curl -L https://raw.githubusercontent.com/t-sullivan/seasons/develop/seasons.py -o ~/Desktop
 ```
 
 ## Usage
 ```bash
-python3 renametv.py [OPTIONS] TITLE [DIR [DIR ...]]
+python3 seasons.py [OPTIONS] TITLE [DIR [DIR ...]]
 ```
 
 ### Arguments
@@ -57,7 +59,7 @@ Game of Thrones (working directory)
 
 We run our command:
 ```bash
-python3 renametv.py 'Game of Thrones' Season\ 01 Season\ 02
+python3 seasons.py 'Game of Thrones' Season\ 01 Season\ 02
 ```
 
 The resulting file structure will look like this:
@@ -88,7 +90,7 @@ Consider the scenario where we have several .mkv files in our current working di
 6. Finally we have our source directory `A`.
 
 ```bash
-python3 renametv.py -o B -c -e 105 'Dragon Ball Super' A
+python3 seasons.py -o B -c -e 105 'Dragon Ball Super' A
 ```
 
 ### Example Output
