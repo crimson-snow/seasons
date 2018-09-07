@@ -14,6 +14,12 @@ class Series:
         self.seasonnum = seasonnum
         self.episodes = []
 
+    def __repr__(self):
+        repr = "Series('{}', '{}', '{}')"
+        return repr.format(self.title,
+                           self.seasonnum,
+                           self.episodes)
+
 
 class Episode:
     ignored = {'.nfo',
@@ -80,7 +86,7 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='display file paths in full')
     parser.add_argument('--version', action='version',
-                        version='%(prog)s v1.1.1')
+                        version='%(prog)s v1.2')
 
     args = parser.parse_args()
 
@@ -133,10 +139,10 @@ def main():
             src = newep.source + '/' + newep.origfilename
             dest = newep.destination + '/' + newep.newfilename
 
-            # Truncate begining of long paths to display
+            # Truncate begining of long paths
             if options['verbose'] is False:
-                src = ('...' + src[-31:]) if len(src) > 28 else src
-                dest = ('...' + dest[-31:]) if len(dest) > 28 else dest
+                src = truncpath(src)
+                dest = truncpath(dest)
 
             print('[{}] from [{}] to [{}]'.format(mode(options['copy']),
                                                   src,
@@ -153,6 +159,7 @@ def main():
         series.episodes.clear()
         options['episodenum'] = 1
         series.seasonnum += 1
+        print('Done!')
 
 
 def writefiles(episodes, copy):
@@ -161,11 +168,9 @@ def writefiles(episodes, copy):
                 os.makedirs(e.destination)
         mode = 'COPYING' if copy else 'MOVING'
         try:
-            print('[{}] from [{}/{}] to [{}/{}]'.format(mode,
-                                                        e.source,
-                                                        e.origfilename,
-                                                        e.destination,
-                                                        e.newfilename))
+            print('[{}] [{}] to [{}]'.format(mode,
+                                             truncpath(e.origfilename),
+                                             truncpath(e.destination)))
             if copy:
                 shutil.copy(e.source + '/' + e.origfilename,
                             e.destination + '/' + e.newfilename)
@@ -199,6 +204,10 @@ def mode(argument):
         1: "COPY"
     }
     return switcher.get(argument, "nothing")
+
+
+def truncpath(path):
+    return ('..' + path[-30:]) if len(path) > 28 else path
 
 
 if __name__ == '__main__':
