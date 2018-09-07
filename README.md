@@ -1,7 +1,7 @@
 # seasons
-A lightweight organization tool for your media library
 
 <img src="assets/img/readme/seasons_logo.png" width="100%" />
+A lightweight organization tool for your media library
 
 ## Installation
 UNIX (Linux, macOS, BSD)
