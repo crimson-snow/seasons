@@ -86,7 +86,7 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='display file paths in full')
     parser.add_argument('--version', action='version',
-                        version='%(prog)s v1.2')
+                        version='%(prog)s v0.0.1')
 
     args = parser.parse_args()
 
