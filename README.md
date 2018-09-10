@@ -17,7 +17,7 @@ python3 seasons.py [OPTIONS] TITLE [DIR [DIR ...]]
 ### Arguments
 ```
 TITLE                 specify a TV show title
-DIR                   specify a source directories
+DIR                   specify source directories
 ```
 The current working directory is the default input and output location if DIR is not supplied.
 
