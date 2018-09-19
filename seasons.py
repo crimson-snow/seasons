@@ -95,7 +95,7 @@ def main():
         'directories': args.dir,
         'copy': args.copy,
         'quiet': args.quiet,
-        'output': args.output or False,
+        'output': args.output.rstrip('/') or False,
         'seasonnum': args.seasonstart,
         'episodenum': args.episodestart,
         'verbose': args.verbose
