@@ -168,9 +168,11 @@ def writefiles(episodes, copy):
                 os.makedirs(e.destination)
         mode = 'COPYING' if copy else 'MOVING'
         try:
-            print('[{}] [{}] to [{}]'.format(mode,
-                                             truncpath(e.origfilename),
-                                             truncpath(e.destination)))
+            epstr = '[{}] [{}] to [{}]'
+            print(epstr.format(mode,
+                               truncpath(e.origfilename),
+                               truncpath(e.destination)))
+            
             if copy:
                 shutil.copy(e.source + '/' + e.origfilename,
                             e.destination + '/' + e.newfilename)
@@ -179,8 +181,8 @@ def writefiles(episodes, copy):
                             e.destination + '/' + e.newfilename)
 
         except shutil.SameFileError:
-                print('Cannot {}! File already exists at the desired ',
-                      + 'output location.'.format(mode(copy).lower()))
+                print(('Cannot {}! File already exists at the desired '
+                       + 'output location.').format(mode(copy).lower()))
 
 
 def userprompt():
