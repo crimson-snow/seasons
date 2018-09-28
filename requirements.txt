@@ -1,0 +1,2 @@
+natsort==5.4.1
+python-magic==0.4.15
