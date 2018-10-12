@@ -4,6 +4,7 @@ import os
 import sys
 import shutil
 import argparse
+import re
 import magic
 from natsort import natsorted, ns
 
@@ -44,11 +45,22 @@ class Episode:
         self.source = source
         self.destination = destination
 
-    def makefilename(self, seasonnum):
-        self.newfilename = (self.title
-                            + ' - S{:02d}'.format(seasonnum)
-                            + 'E{:02d}'.format(self.episodenum)
-                            + '.' + self.extension)
+    def makefilename(self, seasonnum, scheme=None):
+        if scheme is None:
+            self.newfilename = (self.title
+                                + ' - S{:02d}'.format(seasonnum)
+                                + 'E{:02d}'.format(self.episodenum)
+                                + '.' + self.extension)
+        else:
+            rep = {"{t}": self.title,
+                   "{s}": str(seasonnum),
+                   "{e}": str(self.episodenum).zfill(2)}
+
+            rep = dict((re.escape(k), v) for k, v in rep.items())
+            pattern = re.compile("|".join(rep.keys()))
+            scheme = pattern.sub(lambda m: rep[re.escape(m.group(0))], scheme)
+
+            self.newfilename = scheme + '.' + self.extension
 
     def __repr__(self):
         repr = "Episode('{}', '{}', '{}', '{}', '{}', '{}', '{}')"
@@ -83,6 +95,8 @@ def main():
                         help='surpress prompts and proceed with writing files')
     parser.add_argument('-s', '--seasonstart', type=int, default=1,
                         help='specify the starting season number')
+    parser.add_argument('-S', '--scheme',
+                        help='define a custom episode naming scheme')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='display file paths in full')
     parser.add_argument('--version', action='version',
@@ -97,6 +111,7 @@ def main():
         'quiet': args.quiet,
         'output': args.output.rstrip('/') or False,
         'seasonnum': args.seasonstart,
+        'scheme': args.scheme,
         'episodenum': args.episodestart,
         'verbose': args.verbose
     }
@@ -129,7 +144,7 @@ def main():
                             file,
                             extension=ext)
 
-            newep.makefilename(series.seasonnum)
+            newep.makefilename(series.seasonnum, options['scheme'])
             newep.source = directory
             newep.destination = '{}/Season {:02d}'.format(options['output'],
                                                           series.seasonnum)
