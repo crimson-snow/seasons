@@ -187,7 +187,7 @@ def writefiles(episodes, copy):
             print(epstr.format(mode,
                                truncpath(e.origfilename),
                                truncpath(e.destination)))
-            
+
             if copy:
                 shutil.copy(e.source + '/' + e.origfilename,
                             e.destination + '/' + e.newfilename)
@@ -224,7 +224,7 @@ def mode(argument):
 
 
 def truncpath(path):
-    return ('..' + path[-30:]) if len(path) > 28 else path
+    return (path[:8] + '...' + path[-22:]) if len(path) > 33 else path
 
 
 if __name__ == '__main__':
