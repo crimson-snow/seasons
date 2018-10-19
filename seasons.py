@@ -53,6 +53,7 @@ class Episode:
                                 + '.' + self.extension)
         else:
             rep = {"{t}": self.title,
+                   "{t.dot}": self.title.replace(' ', '.'),
                    "{s}": str(seasonnum),
                    "{e}": str(self.episodenum).zfill(2)}
 
