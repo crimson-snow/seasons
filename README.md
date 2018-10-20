@@ -87,9 +87,9 @@ Consider the scenario where we have several .mkv files in our current working di
 
 1. We define our output location with the `--output` option. If this location does not exist, it will be created.
 2. Since we want the files to be copied to a new location and not moved, we denote that with the `--copy` option.
-4. The episodes used in this example start at 105 and we can specify that with the `--episodestart` option.
-5. Next we input our desired show title. In this case `'Dragon Ball Super'`.
-6. Finally we have our source directory `A`.
+3. The episodes used in this example start at 105 and we can specify that with the `--episodestart` option.
+4. Next we input our desired show title. In this case `'Dragon Ball Super'`.
+5. Finally we have our source directory `A`.
 
 ```bash
 python3 seasons.py -o B/ -c -e 105 'Dragon Ball Super' A/
