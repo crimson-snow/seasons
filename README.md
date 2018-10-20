@@ -28,7 +28,7 @@ The current working directory is the default input and output location if DIR is
                       specify the starting episode number
 -o OUTPUT, --output OUTPUT
                       specify an output location
--q, --quiet           surpress prompts and proceed with writing files
+-q, --quiet           suppress prompts and proceed with writing files
 -s SEASONSTART, --seasonstart SEASONSTART
                       specify the starting season number
 -S SCHEME, --scheme SCHEME
