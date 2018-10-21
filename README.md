@@ -1,6 +1,7 @@
 # seasons
 
-<img src="assets/img/readme/seasons_logo.png" width="100%" />
+<img src="assets/img/readme/header.png" width="10%" />
+
 A lightweight organization tool for your media library
 
 ## Installation
