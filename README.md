@@ -6,7 +6,7 @@ A lightweight organization tool for your media library
 
 ## Installation
 ```bash
-sudo curl -L https://raw.githubusercontent.com/t-sullivan/seasons/master/seasons.py
+sudo curl -L https://raw.githubusercontent.com/t-sullivan/seasons/master/seasons.py -o seasons.py
 ```
 
 ## Usage
