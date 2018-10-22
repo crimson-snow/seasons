@@ -1,12 +1,12 @@
 # seasons
 
-<img src="assets/img/readme/header.png" width="10%" />
+<img src="assets/img/readme/header.png" width="20%" />
 
 A lightweight organization tool for your media library
 
 ## Installation
 ```bash
-sudo curl -L https://raw.githubusercontent.com/t-sullivan/seasons/master/seasons.py
+sudo curl -L https://raw.githubusercontent.com/t-sullivan/seasons/master/seasons.py -o seasons.py
 ```
 
 ## Usage
