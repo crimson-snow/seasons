@@ -52,13 +52,13 @@ class Episode:
                                 + 'E{:02d}'.format(self.episodenum)
                                 + '.' + self.extension)
         else:
-            rep = {"{t}": self.title,
-                   "{t.dot}": self.title.replace(' ', '.'),
-                   "{s}": str(seasonnum),
-                   "{e}": str(self.episodenum).zfill(2)}
+            rep = {'{t}': self.title,
+                   '{t.dot}': self.title.replace(' ', '.'),
+                   '{s}': str(seasonnum),
+                   '{e}': str(self.episodenum).zfill(2)}
 
             rep = dict((re.escape(k), v) for k, v in rep.items())
-            pattern = re.compile("|".join(rep.keys()))
+            pattern = re.compile('|'.join(rep.keys()))
             scheme = pattern.sub(lambda m: rep[re.escape(m.group(0))], scheme)
 
             self.newfilename = scheme + '.' + self.extension
@@ -218,10 +218,10 @@ def userprompt():
 
 def mode(argument):
     switcher = {
-        0: "MOVE",
-        1: "COPY"
+        0: 'MOVE',
+        1: 'COPY'
     }
-    return switcher.get(argument, "nothing")
+    return switcher.get(argument, 'nothing')
 
 
 def truncpath(path):
