@@ -181,7 +181,7 @@ def main():
 def writefiles(episodes, copy):
     for e in episodes:
         if not os.path.exists(e.destination):
-                os.makedirs(e.destination)
+            os.makedirs(e.destination)
         mode = 'COPYING' if copy else 'MOVING'
         try:
             epstr = '[{}] [{}] to [{}]'
@@ -197,8 +197,8 @@ def writefiles(episodes, copy):
                             e.destination + '/' + e.newfilename)
 
         except shutil.SameFileError:
-                print(('Cannot {}! File already exists at the desired '
-                       + 'output location.').format(mode(copy).lower()))
+            print(('Cannot {}! File already exists at the desired '
+                  + 'output location.').format(mode(copy).lower()))
 
 
 def userprompt():
