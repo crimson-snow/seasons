@@ -111,12 +111,14 @@ Write files? [(y)es, (n)o, (q)uit]
 
 You have the option to define an episode naming scheme to your liking using variables for series title, season number, and episode number.
 
-|Variable   	|Description   	        |Result   	        |
-|---	        |---	                |---	            |
-|`{t}`   	    |Series title   	    |"Example Title"    |
-|`{t.dot}`   	|Series title with dots |"Example.Title"    |
-|`{s}`  	    |Season #   	        |"1"   	            |
-|`{e}`   	    |Episode #   	        |"03"  	            |
+|Variable   	|Description   	                |Result   	        |
+|---	        |---	                        |---	            |
+|`{t}`   	    |Series title   	            |"Example Title"    |
+|`{t.dot}`   	|Series title with dots         |"Example.Title"    |
+|`{s}`  	    |Season #   	                |"1"   	            |
+|`{s.pad}`  	    |Season # padded to 2 digits    |"01"   	        |
+|`{e}`   	    |Episode #   	                |"3"  	            |
+|`{e.pad}`   	|Episode # padded to 2 digits   |"03"  	            |
 
 ```bash
 python3 seasons.py -S '{t.dot}.{s}{e}' -o B/ -c 'Dragon Ball Super' A/

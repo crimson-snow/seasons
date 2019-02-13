@@ -54,8 +54,10 @@ class Episode:
         else:
             rep = {'{t}': self.title,
                    '{t.dot}': self.title.replace(' ', '.'),
+                   '{s.pad}': str(seasonnum).zfill(2),
                    '{s}': str(seasonnum),
-                   '{e}': str(self.episodenum).zfill(2)}
+                   '{e.pad}': str(self.episodenum).zfill(2),
+                   '{e}': str(self.episodenum)}
 
             rep = dict((re.escape(k), v) for k, v in rep.items())
             pattern = re.compile('|'.join(rep.keys()))
@@ -181,7 +183,7 @@ def main():
 def writefiles(episodes, copy):
     for e in episodes:
         if not os.path.exists(e.destination):
-                os.makedirs(e.destination)
+            os.makedirs(e.destination)
         mode = 'COPYING' if copy else 'MOVING'
         try:
             epstr = '[{}] [{}] to [{}]'
@@ -197,8 +199,8 @@ def writefiles(episodes, copy):
                             e.destination + '/' + e.newfilename)
 
         except shutil.SameFileError:
-                print(('Cannot {}! File already exists at the desired '
-                       + 'output location.').format(mode(copy).lower()))
+            print(('Cannot {}! File already exists at the desired '
+                  + 'output location.').format(mode(copy).lower()))
 
 
 def userprompt():
