@@ -54,8 +54,10 @@ class Episode:
         else:
             rep = {'{t}': self.title,
                    '{t.dot}': self.title.replace(' ', '.'),
+                   '{s.pad}': str(seasonnum).zfill(2),
                    '{s}': str(seasonnum),
-                   '{e}': str(self.episodenum).zfill(2)}
+                   '{e.pad}': str(self.episodenum).zfill(2),
+                   '{e}': str(self.episodenum)}
 
             rep = dict((re.escape(k), v) for k, v in rep.items())
             pattern = re.compile('|'.join(rep.keys()))
