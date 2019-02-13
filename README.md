@@ -116,7 +116,7 @@ You have the option to define an episode naming scheme to your liking using vari
 |`{t}`   	    |Series title   	            |"Example Title"    |
 |`{t.dot}`   	|Series title with dots         |"Example.Title"    |
 |`{s}`  	    |Season #   	                |"1"   	            |
-|`{s}`  	    |Season # padded to 2 digits    |"01"   	        |
+|`{s.pad}`  	    |Season # padded to 2 digits    |"01"   	        |
 |`{e}`   	    |Episode #   	                |"3"  	            |
 |`{e.pad}`   	|Episode # padded to 2 digits   |"03"  	            |
 
